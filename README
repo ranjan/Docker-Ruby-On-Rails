@@ -1,0 +1,13 @@
+ Using DockerCompose
+
+ #  docker-compose build 
+ #  docker-compose up -d
+ #  curl http://localhost
+ #  curl http://localhost:8010
+
+
+Manual 
+
+# docker build -t xxx  --build-arg USER_ID=1000 --build-arg GROUP_ID=1000  .
+
+# docker run -it -d -e WORKER_PROCESSES=1 -e LISTEN_ON=0.0.0.0:8010 -p 8010:8010 xxx
