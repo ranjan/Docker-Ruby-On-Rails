@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  drkiq:
+    build:
+      context: .
+      args:
+        USER_ID: "${USER_ID:-1000}"
+        GROUP_ID: "${GROUP_ID:-1000}"
+    volumes:
+      - ./drkiq:/opt/app
+    ports:
+      - '8010:8010'
+    env_file:
+      - .env
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    links:
+      - drkiq
+    ports:
+      - '80:80'
