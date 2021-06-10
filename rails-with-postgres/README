@@ -1,0 +1,34 @@
+>>  Using Docker Compose
+
+ #  docker-compose build
+ #  docker-compose run demo rake db:create  // Why this? To run db:create, all of the three container should be linked. But these container will be linked when container starts.
+                                               When we write db:create in Dockerfle it won't work becaue demo image is not linked with db     
+ #  docker-compose up -d
+ #  curl http://localhost
+ #  curl http://localhost:8010
+ #  docker volume ls    <--- verify volume 
+Note*  
+1. Container are connected using Name of the service(For rails demo and for nginx use nginx )
+ping demo
+PING demo (172.23.0.2) 56(84) bytes of data.
+64 bytes from aa616703e562 (172.23.0.2): icmp_seq=1 ttl=64 time=0.052 ms
+
+# ping nginx
+PING nginx (172.23.0.3) 56(84) bytes of data.
+64 bytes from docker-rails_nginx_1.docker-rails_default (172.23.0.3): icmp_seq=1 ttl=64 time=0.060 ms
+
+2. Container /opt/rails_demo_app  will mounted on docker host in current context at demo
+
+3. Incase any issue in build or run. remove all volume and re-try
+>>  Start Container Manually
+// Build Rails Image(Setting argument to add user during build image)
+# docker build -t rails_demo --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 --build-arg USER=ranjan .
+
+// Start Rails Container(Setting environment variable for config/unicorn.rb)
+# docker run -it -d --name demo -t -e WORKER_PROCESSES=1 -e LISTEN_ON=0.0.0.0:8010 -p 8010:8010 rails_demo
+
+// Build nginx image
+# docker build -t rails_nginx -f Dockerfile.nginx .
+
+// Link container demo and start nginx container
+# docker run -it -d --link demo -p 80:80  -t rails_nginx 
