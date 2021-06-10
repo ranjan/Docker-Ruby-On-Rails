@@ -1,4 +1,4 @@
- Using DockerCompose
+>>  Using Docker Compose
 
  #  docker-compose build 
  #  docker-compose up -d
@@ -17,8 +17,15 @@ PING nginx (172.23.0.3) 56(84) bytes of data.
 
 2. Container /opt/rails_demo_app  will mounted on docker host in current context at demo
 
-Manual 
+>>  Start Container Manually
+// Build Rails Image(Setting argument to add user during build image)
+# docker build -t rails_demo --build-arg USER_ID=1000 --build-arg GROUP_ID=1000 --build-arg USER=ranjan .
 
-# docker build -t xxx  --build-arg USER_ID=1000 --build-arg GROUP_ID=1000  .
+// Start Rails Container(Setting environment variable for config/unicorn.rb)
+# docker run -it -d --name demo -t -e WORKER_PROCESSES=1 -e LISTEN_ON=0.0.0.0:8010 -p 8010:8010 rails_demo
 
-# docker run -it -d -e WORKER_PROCESSES=1 -e LISTEN_ON=0.0.0.0:8010 -p 8010:8010 xxx
+// Build nginx image
+# docker build -t rails_nginx -f Dockerfile.nginx .
+
+// Link container demo and start nginx container
+# docker run -it -d --link demo -p 80:80  -t rails_nginx 
