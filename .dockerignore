@@ -1,0 +1,6 @@
+.git
+.dockerignore
+.env
+#demo
+demo/node_modules/
+demo/vendor/bundle/
