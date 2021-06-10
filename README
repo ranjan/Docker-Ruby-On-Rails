@@ -4,7 +4,7 @@
  #  docker-compose up -d
  #  curl http://localhost
  #  curl http://localhost:8010
-
+ #  docker volume ls    <--- verify volume 
 Note*  
 1. Container are connected using Name of the service(For rails demo and for nginx use nginx )
 ping demo

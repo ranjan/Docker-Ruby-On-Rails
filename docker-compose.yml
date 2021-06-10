@@ -7,8 +7,8 @@ services:
         USER_ID: "${USER_ID:-1000}"
         GROUP_ID: "${GROUP_ID:-1000}"
         USER: "${USERNAME}"
-#    volumes:
-#      - ./demo:/opt/rails_demo_app
+    volumes:
+      - rails_volume:/opt/rails_demo_app
     ports:
       - '8010:8010'
     env_file:
@@ -21,3 +21,5 @@ services:
       - demo
     ports:
       - '80:80'
+volumes:
+  rails_volume:
